@@ -6,6 +6,7 @@ const CompanyController = require('../controllers/company.controller');
 const HomeController = require('../controllers/home.controller');
 const MaterialsController = require('../controllers/material.controller');
 const CustomersController = require('../controllers/customer.controller');
+const ProbabilityConfigController = require('../controllers/probabilityconfig.controller');
 
 const custom = require('./../middleware/custom');
 
@@ -34,6 +35,11 @@ router.get('/companies', passport.authenticate('jwt', { session: false }), Compa
 router.get('/companies/:company_id', passport.authenticate('jwt', { session: false }), custom.company, CompanyController.get);     // R
 router.put('/companies/:company_id', passport.authenticate('jwt', { session: false }), custom.company, CompanyController.update);  // U
 router.delete('/companies/:company_id', passport.authenticate('jwt', { session: false }), custom.company, CompanyController.remove);  // D
+
+router.post('/probabilityConfigs', passport.authenticate('jwt', { session: false }), ProbabilityConfigController.create); 
+router.get('/probabilityConfigs', passport.authenticate('jwt', { session: false }), ProbabilityConfigController.getAll);
+router.put('/probabilityConfigs', passport.authenticate('jwt', { session: false }), ProbabilityConfigController.update);
+router.delete('/probabilityConfigs', passport.authenticate('jwt', { session: false }), ProbabilityConfigController.remove); 
 
 router.get('/dash', passport.authenticate('jwt', { session: false }), HomeController.Dashboard)
 

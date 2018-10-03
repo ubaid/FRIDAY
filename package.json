@@ -18,6 +18,7 @@
     "express": "~4.16.3",
     "jade": "~1.11.0",
     "mongoose": "^5.2.17",
+    "mongoose-double": "0.0.1",
     "mongoose-validator": "^2.1.0",
     "morgan": "^1.9.1",
     "parse-error": "^0.2.0",
