@@ -6,7 +6,7 @@ const CompanyController = require('../controllers/company.controller');
 const HomeController = require('../controllers/home.controller');
 const MaterialsController = require('../controllers/material.controller');
 const CustomersController = require('../controllers/customer.controller');
-const ProbabilityConfigController = require('../controllers/probabilityconfig.controller');
+const ProbabilityConfigController = require('../controllers/probabilityConfig.controller');
 
 const custom = require('./../middleware/custom');
 

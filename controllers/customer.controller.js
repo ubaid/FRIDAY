@@ -23,8 +23,8 @@ const score = async function (req, res) {
 
 		for(const config of probabilityConfigs){
 			{
-				if(!element.hasOwnProperty(config.field) || !element[config.field]){
-					return;
+				if(!element.hasOwnProperty(config.field) || !element[config.field] || element[config.field] === ''){
+					continue;
 				}
 	
 				let phraseQuery = phraseQueryBuilder.getQueryBody(config.field, element[config.field]);
@@ -39,25 +39,6 @@ const score = async function (req, res) {
 			}
 		}
 	}
-
-	// customers.forEach(element => {
-	// 	element.score = 0.5;
-	// 	probabilityConfigs.forEach(config=>{
-	// 		if(!element.hasOwnProperty(config.field) || !element[config.field]){
-	// 			return;
-	// 		}
-
-	// 		let phraseQuery = phraseQueryBuilder.getQueryBody(config.field, element[config.field]);
-	// 		const results = await elasticService.search(CONFIG.es_profileIndex.customer, phraseQuery);
-
-	// 		if(results.hits.total > 0){
-	// 			element.score = bayesService.computeNaiveBayes(element.score, config.high);
-	// 		}
-	// 		else{
-	// 			element.score = bayesService.computeNaiveBayes(element.score, config.low);
-	// 		}		
-	// 	});
-	// });
 
 	return ReS(res, { customers }, 200);
 }
