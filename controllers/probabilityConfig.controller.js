@@ -56,8 +56,8 @@ module.exports.update = update;
 
 const remove = async function(req, res){
     let probabilityConfig, err;
-    probabilityConfig = req.probabilityConfig;
-
+    probabilityConfig = new ProbabilityConfig(req.body);
+    
     [err, probabilityConfig] = await to(probabilityConfig.remove());
     if(err) return ReE(res, 'error occured trying to delete the probabilityConfig');
 
