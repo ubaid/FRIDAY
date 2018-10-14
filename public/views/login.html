@@ -76,7 +76,7 @@
     <script>
         function onLoginSuccess(token) {
             var expiry = new Date();
-            expiry.setDate(expiry.getDate()+14);
+            expiry.setSeconds(expiry.getSeconds()+10000-10);
             docCookies.setItem("fridayauthtoken", token, expiry);
             window.location.href = '/';
         }
