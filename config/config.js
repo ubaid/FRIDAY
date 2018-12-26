@@ -20,7 +20,7 @@ CONFIG.scoring_max_ip_size  = 2
 
 CONFIG.es_host         = (process.env.ES_HOST || 'localhost') + ':' + (process.env.ES_PORT || '9200')
 CONFIG.es_profileType  = 'data'
-CONFIG.es_profileIndex = {
+CONFI = {
                             makt:'makt',
                             customer:'customer'
                          }
