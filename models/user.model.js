@@ -1,16 +1,18 @@
-const mongoose 			= require('mongoose');
-const bcrypt 			= require('bcrypt');
-const bcrypt_p 			= require('bcrypt-promise');
+/* eslint-disable func-names */
+
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const bcryptP = require('bcrypt-promise');
 const jwt = require('jsonwebtoken');
 const validate = require('mongoose-validator');
 const Company = require('./company.model');
-const { TE, to } = require('../services/util.service');
+const { throwError, to } = require('../services/util.service');
 const CONFIG = require('../config/config');
 
 const UserSchema = mongoose.Schema({
   first: { type: String },
   last: { type: String },
-  phone:	{
+  phone: {
     type: String,
     lowercase: true,
     trim: true,
@@ -48,58 +50,73 @@ UserSchema.virtual('companies', {
 });
 
 UserSchema.pre('save', async function(next) {
-  if (this.isModified('password') || this.isNew) {
-    let err; let salt; let
-      hash;
-    [ err, salt ] = await to(bcrypt.genSalt(10));
-    if (err) TE(err.message, true);
-
-    [ err, hash ] = await to(bcrypt.hash(this.password, salt));
-    if (err) TE(err.message, true);
-
-    this.password = hash;
-  } else {
+  if (!this.isModified('password') && !this.isNew) {
     return next();
   }
+
+  let err;
+  let salt;
+  // eslint-disable-next-line prefer-const
+  [ err, salt ] = await to(bcrypt.genSalt(10));
+  if (err) {
+    throwError(err.message, true);
+  }
+
+  let hash;
+  // eslint-disable-next-line prefer-const
+  [ err, hash ] = await to(bcrypt.hash(this.password, salt));
+  if (err) {
+    throwError(err.message, true);
+  }
+
+  this.password = hash;
+  return 0;
 });
 
 UserSchema.methods.comparePassword = async function(pw) {
-  let err; let
-    pass;
-  if (!this.password) TE('password not set');
+  if (!this.password) {
+    throwError('password not set');
+  }
 
-  [ err, pass ] = await to(bcrypt_p.compare(pw, this.password));
-  if (err) TE(err);
+  const [ err, pass ] = await to(bcryptP.compare(pw, this.password));
+  if (err) {
+    throwError(err);
+  }
 
-  if (!pass) TE('invalid password');
+  if (!pass) {
+    throwError('invalid password');
+  }
 
   return this;
 };
 
 UserSchema.methods.Companies = async function() {
-  let err; let
-    companies;
-  [ err, companies ] = await to(Company.find({ 'users.user': this._id }));
-  if (err) TE('err getting companies');
+  const [ err, companies ] = await to(Company.find({ 'users.user': this._id }));
+  if (err) {
+    throwError('err getting companies');
+  }
   return companies;
 };
 
 UserSchema.virtual('full_name').set(function(name) {
-  const split = name.split(' ');
-  this.first = split[0];
-  this.last = split[1];
+  [ this.first, this.last ] = name.split(' ');
 });
 
 UserSchema.virtual('full_name').get(function() { //now you can treat as if this was a property instead of a function
-  if (!this.first) return null;
-  if (!this.last) return this.first;
+  if (!this.first) {
+    return null;
+  }
+
+  if (!this.last) {
+    return this.first;
+  }
 
   return `${ this.first } ${ this.last }`;
 });
 
 UserSchema.methods.getJWT = function() {
-  const expiration_time = parseInt(CONFIG.jwt_expiration);
-  return `Bearer ${ jwt.sign({ user_id: this._id }, CONFIG.jwt_encryption, { expiresIn: expiration_time }) }`;
+  const expirationTime = parseInt(CONFIG.jwt_expiration, 10);
+  return `Bearer ${ jwt.sign({ user_id: this._id }, CONFIG.jwt_encryption, { expiresIn: expirationTime }) }`;
 };
 
 UserSchema.methods.toWeb = function() {

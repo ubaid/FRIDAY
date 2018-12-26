@@ -1,6 +1,5 @@
 require('dotenv').config();//instatiate environment variables
 
-
 const CONFIG = {}; //Make this global to use all over the application
 
 CONFIG.app = process.env.APP || 'development';
@@ -20,10 +19,5 @@ CONFIG.scoring_max_ip_size = 2;
 
 CONFIG.es_host = `${ process.env.ES_HOST || 'localhost' }:${ process.env.ES_PORT || '9200' }`;
 CONFIG.es_profileType = 'data';
-CONFI = {
-  makt: 'makt',
-  customer: 'customer',
-};
-
 
 module.exports = CONFIG;

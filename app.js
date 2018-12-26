@@ -1,6 +1,6 @@
-const express 		= require('express');
+const express = require('express');
 const logger = require('morgan');
-const bodyParser 	= require('body-parser');
+const bodyParser = require('body-parser');
 const passport = require('passport');
 const pe = require('parse-error');
 const cors = require('cors');
@@ -35,19 +35,16 @@ app.use('/assets', express.static(path.join(__dirname, '/public/assets')));
 //Passport
 app.use(passport.initialize());
 
-//Log Env
+// eslint-disable-next-line no-console
 console.log('Environment:', CONFIG.app);
-//DATABASE
-const models = require('./models');
 
-// CORS
 app.use(cors());
 
 app.use('/v1', v1);
 
 // app.use('/', function(req, res){
-// 	res.statusCode = 200;//send the appropriate status code
-// 	res.json({status:"success", message:"Mongo API", data:{}})
+// res.statusCode = 200;//send the appropriate status code
+// res.json({status:"success", message:"Mongo API", data:{}})
 // });
 
 // catch 404 and forward to error handler
@@ -58,7 +55,7 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -71,5 +68,6 @@ app.use((err, req, res, next) => {
 module.exports = app;
 
 process.on('unhandledRejection', (error) => {
+  // eslint-disable-next-line no-console
   console.error('Uncaught Error', pe(error));
 });

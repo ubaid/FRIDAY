@@ -1,5 +1,6 @@
-const mongoose 			= require('mongoose');
-const { TE, to } = require('../services/util.service');
+/* eslint-disable func-names */
+
+const mongoose = require('mongoose');
 
 const CompanySchema = mongoose.Schema({
   name: { type: String },
@@ -12,4 +13,4 @@ CompanySchema.methods.toWeb = function() {
   return json;
 };
 
-const company = module.exports = mongoose.model('Company', CompanySchema);
+module.exports = mongoose.model('Company', CompanySchema);

@@ -5,7 +5,7 @@
  * http://www.paulgraham.com/naivebayes.html
  */
 
-const computeNaiveBayes = function(prob1, prob2) {
+const computeNaiveBayes = (prob1, prob2) => {
   return (prob1 * prob2) / ((prob1 * prob2) + ((1.0 - prob1) * (1.0 - prob2)));
 };
 module.exports.computeNaiveBayes = computeNaiveBayes;

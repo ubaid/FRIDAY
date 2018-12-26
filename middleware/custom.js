@@ -1,23 +1,27 @@
 const Company = require('../models/company.model');
-const { to, ReE, ReS } = require('../services/util.service');
+const { to, reE } = require('../services/util.service');
 
-const company = async function(req, res, next) {
-  let company_id; let err; let
-    company;
-  company_id = req.params.company_id;
+const company = async(req, res, next) => {
+  const companyId = req.params.company_id;
 
-  [ err, company ] = await to(Company.findOne({ _id: company_id }));
-  if (err) return ReE(res, 'err finding company');
+  const [ err, company ] = await to(Company.findOne({ _id: companyId }));
+  if (err) {
+    return reE(res, 'err finding company');
+  }
 
-  if (!company) return ReE(res, `Company not found with id: ${ company_id }`);
-  let user; let
-    users_array;
-  user = req.user;
-  users_array = company.users.map(obj => String(obj.user));
+  if (!company) {
+    return reE(res, `Company not found with id: ${ companyId }`);
+  }
 
-  if (!users_array.includes(String(user._id))) return ReE(res, `User does not have permission to read app with id: ${ app_id }`);
+  const usersArray = company.users.map(obj => String(obj.user));
+
+  if (!usersArray.includes(String(req.user._id))) {
+    return reE(res, `User does not have permission to read app`);
+  }
 
   req.company = company;
   next();
+  return 0;
 };
+
 module.exports.company = company;

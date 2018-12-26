@@ -1,68 +1,56 @@
 const { Company } = require('../models');
-const { to, ReE, ReS } = require('../services/util.service');
+const { to, reE, reS } = require('../services/util.service');
 
-const create = async function(req, res) {
+const create = async(req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  let err; let
-    company;
-  const user = req.user;
+  const companyInfo = req.body;
+  companyInfo.users = [ { user: req.user._id } ];
 
-  const company_info = req.body;
-  company_info.users = [ { user: user._id } ];
+  const [ err, company ] = await to(Company.create(companyInfo));
+  if (err) {
+    return reE(res, err, 422);
+  }
 
-  [ err, company ] = await to(Company.create(company_info));
-  if (err) return ReE(res, err, 422);
-
-  return ReS(res, { company: company.toWeb() }, 201);
+  return reS(res, { company: company.toWeb() }, 201);
 };
+
 module.exports.create = create;
 
-const getAll = async function(req, res) {
+const getAll = async(req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  const user = req.user;
-  let err; let
-    companies;
-  [ err, companies ] = await to(user.Companies());
-
-  const companies_json = [];
-  for (const i in companies) {
-    const company = companies[i];
-    companies_json.push(company.toWeb());
-  }
-  return ReS(res, { companies: companies_json });
+  const [ companies ] = await to(req.user.Companies());
+  return reS(res, { companies: companies.map(company => company.toWeb()) });
 };
 module.exports.getAll = getAll;
 
-const get = function(req, res) {
+const get = (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  const company = req.company;
-  return ReS(res, { company: company.toWeb() });
+  return reS(res, { company: req.company.toWeb() });
 };
 module.exports.get = get;
 
-const update = async function(req, res) {
-  let err; let company; let
-    data;
-  company = req.user;
-  data = req.body;
-  company.set(data);
+const update = async(req, res) => {
+  let err;
+  let company = req.user;
+  const data = req.body;
 
+  company.set(data);
+  // eslint-disable-next-line prefer-const
   [ err, company ] = await to(company.save());
+
   if (err) {
-    return ReE(res, err);
+    return reE(res, err);
   }
-  return ReS(res, { company: company.toWeb() });
+  return reS(res, { company: company.toWeb() });
 };
 module.exports.update = update;
 
-const remove = async function(req, res) {
-  let company; let
-    err;
-  company = req.company;
+const remove = async(req, res) => {
+  const [ err ] = await to(req.company.remove());
+  if (err) {
+    return reE(res, 'error occured trying to delete the company');
+  }
 
-  [ err, company ] = await to(company.remove());
-  if (err) return ReE(res, 'error occured trying to delete the company');
-
-  return ReS(res, { message: 'Deleted Company' }, 204);
+  return reS(res, { message: 'Deleted Company' }, 204);
 };
 module.exports.remove = remove;

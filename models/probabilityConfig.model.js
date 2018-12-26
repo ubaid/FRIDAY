@@ -1,9 +1,9 @@
-const mongoose 			= require('mongoose');
+/* eslint-disable func-names */
+
+const mongoose = require('mongoose');
 require('mongoose-double')(mongoose);
 
 const SchemaTypes = mongoose.Schema.Types;
-const { TE, to } = require('../services/util.service');
-
 const ProbabilityConfigSchema = mongoose.Schema({
   field: { type: String },
   low: { type: SchemaTypes.Double },
@@ -16,5 +16,4 @@ ProbabilityConfigSchema.methods.toWeb = function() {
   return json;
 };
 
-
-const probabilityConfig = module.exports = mongoose.model('ProbabilityConfig', ProbabilityConfigSchema);
+module.exports = mongoose.model('ProbabilityConfig', ProbabilityConfigSchema);
