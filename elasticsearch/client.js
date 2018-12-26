@@ -1,8 +1,8 @@
-var elasticsearch = require('elasticsearch');
+const elasticsearch = require('elasticsearch');
 const CONFIG = require('../config/config');
 
-var client = new elasticsearch.Client({
-    hosts:CONFIG.es_host
-})
+const client = new elasticsearch.Client({
+  hosts: CONFIG.es_host,
+});
 
-module.exports=client
+module.exports = client;

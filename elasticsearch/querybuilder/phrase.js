@@ -1,11 +1,11 @@
-module.exports.getQueryBody = function (field, phrase) {
-    let body = {
-        query: {
-            "match_phrase": {
-                [field]: phrase
-            }
-        }
-    };
+module.exports.getQueryBody = function(field, phrase) {
+  const body = {
+    query: {
+      match_phrase: {
+        [field]: phrase,
+      },
+    },
+  };
 
-    return body;
+  return body;
 };
