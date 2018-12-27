@@ -9,7 +9,7 @@ const HomeController = require('../controllers/home.controller');
 const MaterialsController = require('../controllers/material.controller');
 const CustomersController = require('../controllers/customer.controller');
 const ProbabilityConfigController = require('../controllers/probabilityConfig.controller');
-
+const SearchController = require('../controllers/search.controller');
 const custom = require('./../middleware/custom');
 
 const options = { session: false };
@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 router.post('/scoring/materials', auth.authenticate('jwt', options), MaterialsController.score);
 router.post('/scoring/customers', auth.authenticate('jwt', options), CustomersController.score);
 
-router.post('/users', UserController.create); // C
+router.post('/users', UserController.create);
 router.get('/users', auth.authenticate('jwt', options), UserController.get);
 router.put('/users', auth.authenticate('jwt', options), UserController.update);
 router.delete('/users', auth.authenticate('jwt', options), UserController.remove);
@@ -40,6 +40,8 @@ router.post('/probabilityConfigs', auth.authenticate('jwt', options), Probabilit
 router.get('/probabilityConfigs', auth.authenticate('jwt', options), ProbabilityConfigController.getAll);
 router.put('/probabilityConfigs', auth.authenticate('jwt', options), ProbabilityConfigController.update);
 router.delete('/probabilityConfigs', auth.authenticate('jwt', options), ProbabilityConfigController.remove);
+
+router.post('/search', SearchController.search);
 
 router.get('/dash', auth.authenticate('jwt', options), HomeController.Dashboard);
 

@@ -29,7 +29,9 @@ module.exports.reS = (res, data, code) => { // Success Web Response
     sendData = Object.assign(data, sendData);//merge the objects
   }
 
-  if (typeof code !== 'undefined') res.statusCode = code;
+  if (typeof code !== 'undefined') {
+    res.statusCode = code;
+  }
 
   return res.json(sendData);
 };

@@ -1,16 +1,17 @@
-const CONFIG = require('../config/config');
+const config = require('../config/config');
 const { to, reE, reS } = require('../services/util.service');
 const { ProbabilityConfig } = require('../models');
 const elasticService = require('../services/elasticsearch.service');
 const bayesService = require('../services/bayes.service');
-const phraseQueryBuilder = require('../elasticsearch/querybuilder/phrase');
+const queryBuilder = require('../elasticsearch/querybuilder');
 
 const score = async(req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
+  // eslint-disable-next-line prefer-destructuring
   const customers = req.body.customers;
   const customersCount = customers.length;
-  if (customersCount > CONFIG.scoring_max_ip_size) {
+  if (customersCount > config.scoring.maxIPSize) {
     return reE(res, 'Payload exceeds allowed limit.', 413);
   }
 
@@ -28,8 +29,8 @@ const score = async(req, res) => {
         return;
       }
 
-      const phraseQuery = phraseQueryBuilder.getQueryBody(config.field, element[config.field]);
-      const results = await elasticService.search(CONFIG.es_profileIndex.customer, phraseQuery);
+      const phraseQuery = queryBuilder.getPhraseQuery(config.field, element[config.field]);
+      const results = await elasticService.search(config.es_profileIndex.customer, phraseQuery);
 
       if (results.hits.total > 0) {
         element.score = bayesService.computeNaiveBayes(element.score, config.high);

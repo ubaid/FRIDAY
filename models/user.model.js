@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const validate = require('mongoose-validator');
 const Company = require('./company.model');
 const { throwError, to } = require('../services/util.service');
-const CONFIG = require('../config/config');
+const config = require('../config/config');
 
 const UserSchema = mongoose.Schema({
   first: { type: String },
@@ -115,8 +115,8 @@ UserSchema.virtual('full_name').get(function() { //now you can treat as if this 
 });
 
 UserSchema.methods.getJWT = function() {
-  const expirationTime = parseInt(CONFIG.jwt_expiration, 10);
-  return `Bearer ${ jwt.sign({ user_id: this._id }, CONFIG.jwt_encryption, { expiresIn: expirationTime }) }`;
+  const expirationTime = parseInt(config.jwt.expiration, 10);
+  return `Bearer ${ jwt.sign({ user_id: this._id }, config.jwt.encryption, { expiresIn: expirationTime }) }`;
 };
 
 UserSchema.methods.toWeb = function() {
@@ -125,4 +125,5 @@ UserSchema.methods.toWeb = function() {
   return json;
 };
 
+// eslint-disable-next-line
 const User = module.exports = mongoose.model('User', UserSchema);

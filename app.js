@@ -9,7 +9,7 @@ const v1 = require('./routes/v1');
 
 const app = express();
 
-const CONFIG = require('./config/config');
+const config = require('./config/config');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -36,7 +36,7 @@ app.use('/assets', express.static(path.join(__dirname, '/public/assets')));
 app.use(passport.initialize());
 
 // eslint-disable-next-line no-console
-console.log('Environment:', CONFIG.app);
+console.log('Environment:', config.app);
 
 app.use(cors());
 

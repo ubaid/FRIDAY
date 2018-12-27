@@ -4,9 +4,9 @@ const path = require('path');
 const basename = path.basename(__filename);
 const models = {};
 const mongoose = require('mongoose');
-const CONFIG = require('../config/config');
+const config = require('../config/config');
 
-if (CONFIG.db_host !== '') {
+if (config.db.host !== '') {
   fs.readdirSync(__dirname)
     .filter((file) => {
       return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
@@ -19,7 +19,7 @@ if (CONFIG.db_host !== '') {
     });
 
   mongoose.Promise = global.Promise; //set mongo up to use promises
-  const mongoLocation = `mongodb://${ CONFIG.db_host }:${ CONFIG.db_port }/${ CONFIG.db_name }`;
+  const mongoLocation = `mongodb://${ config.db.host }:${ config.db.port }/${ config.db.name }`;
 
   mongoose.connect(mongoLocation).catch(() => {
     // eslint-disable-next-line no-console

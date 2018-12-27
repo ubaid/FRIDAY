@@ -1,12 +1,13 @@
-const CONFIG = require('../config/config');
+const config = require('../config/config');
 const { reE, reS } = require('../services/util.service');
 
 const score = async(req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
+  // eslint-disable-next-line prefer-destructuring
   const materials = req.body.materials;
   const materialsCount = materials.length;
-  if (materialsCount > CONFIG.scoring_max_ip_size) {
+  if (materialsCount > config.scoring.maxIPSize) {
     return reE(res, 'Payload exceeds allowed limit.', 413);
   }
 
