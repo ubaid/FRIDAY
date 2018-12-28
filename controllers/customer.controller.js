@@ -1,46 +1,46 @@
-const CONFIG = require('../config/config');
-const { to, ReE, ReS } = require('../services/util.service');
+const config = require('../config/config');
+const { to, reE, reS } = require('../services/util.service');
 const { ProbabilityConfig } = require('../models');
 const elasticService = require('../services/elasticsearch.service');
 const bayesService = require('../services/bayes.service');
-const phraseQueryBuilder = require('../elasticsearch/querybuilder/phrase')
+const queryBuilder = require('../elasticsearch/querybuilder');
 
-const score = async function (req, res) {
-	res.setHeader('Content-Type', 'application/json');
-	
-	let customers = req.body.customers;
-	const customersCount = customers.length;
-	if (customersCount > CONFIG.scoring_max_ip_size) return ReE(res, 'Payload exceeds allowed limit.', 413);
+const score = async(req, res) => {
+  res.setHeader('Content-Type', 'application/json');
 
-	let err, probabilityConfigs;
-	[err, probabilityConfigs] = await to(ProbabilityConfig.find({}));
-    
-    if(err) return ReE(res, 'err getting probabilityConfigs');
+  // eslint-disable-next-line prefer-destructuring
+  const customers = req.body.customers;
+  const customersCount = customers.length;
+  if (customersCount > config.scoring.maxIPSize) {
+    return reE(res, 'Payload exceeds allowed limit.', 413);
+  }
 
+  const [ err, probabilityConfigs ] = await to(ProbabilityConfig.find({}));
 
-	for(const element of customers){
-		element.score = 0.5;
+  if (err) {
+    return reE(res, 'err getting probabilityConfigs');
+  }
 
-		for(const config of probabilityConfigs){
-			{
-				if(!element.hasOwnProperty(config.field) || !element[config.field] || element[config.field] === ''){
-					continue;
-				}
-	
-				let phraseQuery = phraseQueryBuilder.getQueryBody(config.field, element[config.field]);
-				const results = await elasticService.search(CONFIG.es_profileIndex.customer, phraseQuery);
-	
-				if(results.hits.total > 0){
-					element.score = bayesService.computeNaiveBayes(element.score, config.high);
-				}
-				else{
-					element.score = bayesService.computeNaiveBayes(element.score, config.low);
-				}		
-			}
-		}
-	}
+  customers.forEach((element) => {
+    element.score = 0.5;
 
-	return ReS(res, { customers }, 200);
-}
+    probabilityConfigs.forEach(async(config) => {
+      if (!element[config.field] || element[config.field] === '') {
+        return;
+      }
+
+      const phraseQuery = queryBuilder.getPhraseQuery(config.field, element[config.field]);
+      const results = await elasticService.search(config.es_profileIndex.customer, phraseQuery);
+
+      if (results.hits.total > 0) {
+        element.score = bayesService.computeNaiveBayes(element.score, config.high);
+      } else {
+        element.score = bayesService.computeNaiveBayes(element.score, config.low);
+      }
+    });
+  });
+
+  return reS(res, { customers }, 200);
+};
 
 module.exports.score = score;

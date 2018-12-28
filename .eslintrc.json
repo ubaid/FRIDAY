@@ -1,0 +1,62 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  },
+  "extends": "airbnb",
+  "plugins": [
+    "compat"
+  ],
+  "rules": {
+    "arrow-body-style": 0,
+    "array-bracket-spacing": ["error", "always"],
+    "class-methods-use-this": 0,
+    "compat/compat": 2,
+    "import/imports-first": 0,
+    "import/extensions": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-named-as-default": 0,
+    "import/no-unresolved": 0,
+    "import/prefer-default-export": 0,
+    "import/imports/first": 0,
+    "jsx-a11y/label-has-for": 0,
+    "jsx-a11y/no-static-element-interactions": "off",
+    "max-len": ["error", { "code": 120, "ignoreUrls": true }],
+    "new-cap": ["error", { "properties": false, "capIsNewExceptions": ["ObjectID", "Immutable", "Reducer"] }],
+    "no-case-declarations": 0,
+    "no-mixed-operators": 0,
+    "no-param-reassign": 0,
+    "no-shadow": 0,
+    "no-underscore-dangle": 0,
+    "no-use-before-define": 0,
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "react/destructuring-assignment": 0,
+    "react/forbid-prop-types": 0,
+    "react/jsx-curly-spacing": [2, "always"],
+    "react/jsx-filename-extension": 0,
+    "react/jsx-indent": 0,
+    "react/jsx-no-bind": 0,
+    "react/jsx-no-target-blank": "off",
+    "react/jsx-space-before-closing": 0,
+    "react/jsx-tag-spacing": 0,
+    "react/no-string-refs": 0,
+    "react/prop-types": 0,
+    "react/require-default-props": 0,
+    "space-before-function-paren": ["error", "never"],
+    "spaced-comment": 0,
+    "template-curly-spacing": ["error", "always"]
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "./webpack.config.js"
+      }
+    }
+  },
+  "globals": {
+    "jest": true,
+    "IS_PRODUCTION_BUILD": true
+  }
+}

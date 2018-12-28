@@ -1,16 +1,16 @@
-const mongoose 			= require('mongoose');
-const {TE, to}          = require('../services/util.service');
+/* eslint-disable func-names */
 
-let CompanySchema = mongoose.Schema({
-    name: {type:String},
-    users:  [ {user:{type : mongoose.Schema.ObjectId, ref : 'User'}, permissions:[{type:String}]} ],
-}, {timestamps: true});
+const mongoose = require('mongoose');
 
-CompanySchema.methods.toWeb = function(){
-    let json = this.toJSON();
-    json.id = this._id;//this is for the front end
-    return json;
+const CompanySchema = mongoose.Schema({
+  name: { type: String },
+  users: [ { user: { type: mongoose.Schema.ObjectId, ref: 'User' }, permissions: [ { type: String } ] } ],
+}, { timestamps: true });
+
+CompanySchema.methods.toWeb = function() {
+  const json = this.toJSON();
+  json.id = this._id;//this is for the front end
+  return json;
 };
 
-let company = module.exports = mongoose.model('Company', CompanySchema);
-
+module.exports = mongoose.model('Company', CompanySchema);
