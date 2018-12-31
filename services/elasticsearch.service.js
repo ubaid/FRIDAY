@@ -31,7 +31,12 @@ const searchWithPagination = async(inputOptions) => {
 
   const options = _.extend({ fields: _.pluck(indexConfig.fields, 'name') }, inputOptions);
   const queryBody = options.exact ? QueryBuilder.getExactMatchQuery(options) : QueryBuilder.getSearchQuery(options);
-  const queryOptions = _.extend({ data: true, offset: 0, limit: 10, body: queryBody }, options);
+  const queryOptions = _.extend({
+    data: true,
+    offset: 0,
+    limit: 10,
+    body: queryBody,
+  }, options);
   const esQuery = {
     index: indexConfig.index,
     type: config.search.profileType,
@@ -56,9 +61,15 @@ const searchWithPagination = async(inputOptions) => {
       }
 
       const results = [];
-      esDocs.hits.hits.forEach(entry => { results.push(_.extend({ score: entry._score }, entry._source)); });
-      const sortedResults = _.sortBy(results, entry => -entry.score);
-      return _.extend({ items: sortedResults }, resultObject);
+      const maxScore = esDocs.hits.total ? esDocs.hits.hits[0]._score : 0;
+      esDocs.hits.hits.forEach((entry) => {
+        results.push(_.extend({
+          score: entry._score,
+          match: (entry._score / maxScore * 100).toFixed(2),
+        }, entry._source));
+      });
+
+      return _.extend({ items: results }, resultObject);
     })
     .catch((error) => {
       throwError(`Error while executing search query: ${ error }`);
