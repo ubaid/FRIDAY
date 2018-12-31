@@ -5,10 +5,10 @@ const passport = require('passport');
 const pe = require('parse-error');
 const cors = require('cors');
 const path = require('path');
-const v1 = require('./routes/v1');
+const v1 = require('./server/routes/v1');
 
 const app = express();
-const config = require('./config/config');
+const config = require('./server/config/config');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
