@@ -10,11 +10,12 @@ const MaterialsController = require('../controllers/material.controller');
 const CustomersController = require('../controllers/customer.controller');
 const ProbabilityConfigController = require('../controllers/probabilityConfig.controller');
 const SearchController = require('../controllers/search.controller');
-const custom = require('./../middleware/custom');
+const custom = require('../middleware/custom');
 
 const options = { session: false };
 
-require('./../middleware/passport')(auth);
+require('../middleware/passport')(auth);
+
 /* GET home page. */
 router.get('/', (req, res) => {
   res.json({ status: 'success', message: 'da Vinci API', data: { version_number: 'v1.0.0' } });

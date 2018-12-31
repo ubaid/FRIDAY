@@ -1,4 +1,4 @@
-const { ProbabilityConfig } = require('../models');
+const { ProbabilityConfig } = require('../models/index');
 const { to, reE, reS } = require('../services/util.service');
 
 const create = async(req, res) => {

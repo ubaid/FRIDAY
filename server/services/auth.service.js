@@ -1,6 +1,6 @@
 const validator = require('validator');
-const { User } = require('../models');
-const { to, throwError } = require('../services/util.service');
+const { User } = require('../models/index');
+const { to, throwError } = require('./util.service');
 
 const getUniqueKeyFromBody = (body) => {
   // this is so they can send in 3 options unique_key, email, or phone and it will work

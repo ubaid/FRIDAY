@@ -1,6 +1,6 @@
 const config = require('../config/config');
 const { to, reE, reS } = require('../services/util.service');
-const { ProbabilityConfig } = require('../models');
+const { ProbabilityConfig } = require('../models/index');
 const elasticService = require('../services/elasticsearch.service');
 const bayesService = require('../services/bayes.service');
 const queryBuilder = require('../elasticsearch/querybuilder');

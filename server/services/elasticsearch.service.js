@@ -3,7 +3,7 @@ const config = require('../config/config');
 const IndexManager = require('../elasticsearch/indexmanager');
 const QueryBuilder = require('../elasticsearch/querybuilder');
 const ElasticClient = require('../elasticsearch/queryclient');
-const { throwError } = require('../services/util.service');
+const { throwError } = require('./util.service');
 
 const search = (indexName, payload) => {
   return ElasticClient.search({
