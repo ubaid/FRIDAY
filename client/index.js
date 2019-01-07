@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import createHistory from 'history/createBrowserHistory';
 
-import Root from './Root';
+import Root from './root';
 
 import configureStore from './lib/configure-store';
 
