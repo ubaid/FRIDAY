@@ -14,20 +14,16 @@ const create = async(req, res) => {
   return reS(res, { company: company.toWeb() }, 201);
 };
 
-module.exports.create = create;
-
 const getAll = async(req, res) => {
   res.setHeader('Content-Type', 'application/json');
   const [ companies ] = await to(req.user.Companies());
   return reS(res, { companies: companies.map(company => company.toWeb()) });
 };
-module.exports.getAll = getAll;
 
 const get = (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   return reS(res, { company: req.company.toWeb() });
 };
-module.exports.get = get;
 
 const update = async(req, res) => {
   let err;
@@ -43,7 +39,6 @@ const update = async(req, res) => {
   }
   return reS(res, { company: company.toWeb() });
 };
-module.exports.update = update;
 
 const remove = async(req, res) => {
   const [ err ] = await to(req.company.remove());
@@ -53,4 +48,11 @@ const remove = async(req, res) => {
 
   return reS(res, { message: 'Deleted Company' }, 204);
 };
-module.exports.remove = remove;
+
+module.exports = {
+  create,
+  get,
+  getAll,
+  update,
+  remove,
+};

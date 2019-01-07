@@ -1,0 +1,61 @@
+.list-searcher {
+  .search-container {
+    display: inline-flex;
+  }
+
+  .search {
+    width: 25rem;
+    height: 2rem;
+    padding-left: 0.5rem;
+    font-size: 0.8rem;
+
+    button {
+      position: absolute !important;
+    }
+
+    *::-webkit-input-placeholder {
+      text-overflow: ellipsis !important;
+    }
+
+    *:-moz-placeholder {
+      /* FF 4-18 */
+      text-overflow: ellipsis !important;
+    }
+
+    *::-moz-placeholder {
+      /* FF 19+ */
+      text-overflow: ellipsis !important;
+    }
+
+    *:-ms-input-placeholder {
+      /* IE 10+ */
+      text-overflow: ellipsis !important;
+    }
+  }
+
+  .clear-search {
+    right: 1.5rem;
+    position: relative;
+    margin-right: -0.5rem;
+    background: no-repeat;
+    border: navajowhite;
+    font-size: 0.7rem;
+
+    &.hidden {
+      display: inline;
+      visibility: hidden;
+    }
+  }
+
+  .search-button {
+    width: 2.25rem;
+    height: 2.25rem;
+    vertical-align: top;
+
+    img {
+      width: 90%;
+      height: 70%;
+      padding-top: 0.1rem;
+    }
+  }
+}

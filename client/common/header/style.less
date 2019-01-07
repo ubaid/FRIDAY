@@ -1,0 +1,35 @@
+.page-header {
+  height: 3.25rem;
+
+  .logo {
+    height: 3.25rem;
+    width: 3rem;
+    padding-left: 0.5rem;
+    background: #0a0a0a;
+  }
+
+  .workspaces {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #0a0a0a;
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 3.5rem);
+
+    .workspace {
+      display: inline-block;
+      padding: 1rem;
+
+      &[data-selected="true"] a {
+        color: #326ec8;
+      }
+
+      a {
+        color: #fff;
+        cursor: pointer;
+        text-decoration: none;
+      }
+    }
+  }
+}
