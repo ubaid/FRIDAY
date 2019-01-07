@@ -1,0 +1,44 @@
+{
+  "presets": [
+    [ "env", { "modules": false } ],
+    [ "react" ]
+  ],
+  "plugins": [
+    "transform-object-rest-spread",
+    "react-hot-loader/babel"
+  ],
+  "env": {
+    "local": {
+      "plugins": [
+        "./scripts/babel-plugins/react-hot-loader-element-comparison"
+      ]
+    },
+    "test": {
+      "presets": [
+        [ "env", { "targets": { "node": "current" } } ],
+        [ "react" ]
+      ],
+      "plugins": [
+        "transform-object-rest-spread",
+        "transform-react-jsx-source",
+        [
+          "module-resolver",
+          {
+            "alias": {
+              "bundles": "./client/bundles",
+              "config": "./client/config",
+              "lib": "./client/lib",
+              "helpers": "./test/helpers",
+              "test": "./test",
+              "utils": "./client/utils",
+              "app": "./client/app",
+              "common": "./client/common",
+              "shared": "./shared",
+              "server": "./server"
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

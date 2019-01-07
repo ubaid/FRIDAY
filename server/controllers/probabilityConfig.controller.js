@@ -12,7 +12,6 @@ const create = async(req, res) => {
 
   return reS(res, { probabilityConfig: probabilityConfig.toWeb() }, 201);
 };
-module.exports.create = create;
 
 const getAll = async(req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -30,7 +29,6 @@ const getAll = async(req, res) => {
 
   return reS(res, { probabilityConfigs: probabilityConfigsJson });
 };
-module.exports.getAll = getAll;
 
 const update = async(req, res) => {
   let err;
@@ -46,7 +44,6 @@ const update = async(req, res) => {
 
   return reS(res, { probabilityConfig: probabilityConfig.toWeb() });
 };
-module.exports.update = update;
 
 const remove = async(req, res) => {
   const [ err ] = await to(new ProbabilityConfig(req.body).remove());
@@ -56,4 +53,10 @@ const remove = async(req, res) => {
 
   return reS(res, { message: 'Deleted probabilityConfig' }, 204);
 };
-module.exports.remove = remove;
+
+module.exports = {
+  create,
+  getAll,
+  update,
+  remove,
+};

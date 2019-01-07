@@ -29,6 +29,7 @@ router.get('/users', auth.authenticate('jwt', options), UserController.get);
 router.put('/users', auth.authenticate('jwt', options), UserController.update);
 router.delete('/users', auth.authenticate('jwt', options), UserController.remove);
 router.post('/users/login', UserController.login);
+router.get('/users/logout', UserController.logout);
 
 router.post('/companies', auth.authenticate('jwt', options), CompanyController.create);
 router.get('/companies', auth.authenticate('jwt', options), CompanyController.getAll);

@@ -3,6 +3,12 @@ require('dotenv').config();
 const config = {
   app: process.env.APP || 'development',
   port: process.env.PORT || '3000',
+  log: {
+    logLevel: process.env.LOG_LEVEL || 'info',
+    logDirectory: process.env.LOG_DIRECTORY || './logs',
+    logFile: 'server.log',
+    logConsole: false,
+  },
   jwt: {
     encryption: process.env.JWT_ENCRYPTION || 'Ob8GcD4LyZpw5hvUtpXh!',
     expiration: process.env.JWT_EXPIRATION || '10000',
