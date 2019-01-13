@@ -5,6 +5,7 @@ import _ from 'underscore';
 import DVUtils from 'shared/utils';
 import searchConfig from 'config/search';
 import ListComponent from 'common/list-container/component';
+import Logger from 'lib/logger';
 
 import SearchListItem from './search-list-item';
 import { searchItems } from './actions';
@@ -50,7 +51,7 @@ class SearchContainer extends Component {
   }
 
   static getListItemTemplate(itemJson, params) {
-    const itemProps = _.extend({}, params, itemJson);
+    const itemProps = _.extend({}, itemJson, params);
     return <SearchListItem { ...itemProps } />;
   }
 
@@ -76,9 +77,9 @@ class SearchContainer extends Component {
     searchListConfig.list.data.total = this.props.total || 0;
     searchListConfig.list.data.items = this.props.items || [];
     searchListConfig.list.data.fetching = _.isBoolean(this.props.fetching) ? this.props.fetching : false;
-    if (!_.isEmpty(this.props.items) && this.props.offset === _.size(this.props.items)) {
-      fetchParams.maxScore = this.props.items[0].score;
-    }
+
+    Logger.info(`Setting max score to ${ this.props.maxScore }`);
+    fetchParams.maxScore = this.props.maxScore;
     searchListConfig.list.data.fetchParams = fetchParams;
 
     const fieldsConfig = searchConfig.fieldsConfig[fetchParams.index];
@@ -102,7 +103,7 @@ class SearchContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  offset: state.searchReducer.offset,
+  maxScore: state.searchReducer.maxScore,
   total: state.searchReducer.total,
   fetching: state.searchReducer.fetching,
   items: state.searchReducer.items,

@@ -61,7 +61,8 @@ const searchWithPagination = async(inputOptions) => {
       }
 
       const results = [];
-      const maxScore = indexConfig.maxScore || (esDocs.hits.total ? esDocs.hits.hits[0]._score : 0);
+      const maxScoreParam = esQuery.from ? parseFloat(inputOptions.maxScore || '0') : 0;
+      const maxScore = maxScoreParam || (esDocs.hits.total ? esDocs.hits.hits[0]._score : 0);
       esDocs.hits.hits.forEach((entry) => {
         results.push(_.extend({
           score: entry._score,
@@ -69,7 +70,7 @@ const searchWithPagination = async(inputOptions) => {
         }, entry._source));
       });
 
-      return _.extend({ items: results }, resultObject);
+      return _.extend({ items: results, maxScore: maxScore }, resultObject);
     })
     .catch((error) => {
       throwError(`Error while executing search query: ${ error }`);
