@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'underscore';
+import Switch from 'react-switch';
 
 import DVUtils from 'shared/utils';
 
@@ -9,9 +10,10 @@ class Searcher extends Component {
   constructor(props) {
     super(props);
 
+    this.clearSearch = this.clearSearch.bind(this);
     this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
-    this.clearSearch = this.clearSearch.bind(this);
+    this.triggerExactMatchChange = this.triggerExactMatchChange.bind(this);
   }
 
   componentDidMount() {
@@ -75,6 +77,13 @@ class Searcher extends Component {
     this.lastSearchString = trimmedValue;
   }
 
+  triggerExactMatchChange(checked) {
+    const searchOptions = {};
+    searchOptions[this.lastSearchBy] = this.lastSearchString;
+    searchOptions.exact = checked;
+    this.props.onSearchChange(searchOptions);
+  }
+
   toggleClearSearchElement(flag) {
     this.node.querySelector('.clear-search').classList.toggle('hidden', !flag);
   }
@@ -98,6 +107,10 @@ class Searcher extends Component {
         <button type="button" className="search-button light-border" onClick={ this.handleSearchButtonClick } >
           <img src="images/search.png" alt="Search" />
         </button>
+        <div className="exact-match">
+          <Switch onChange={ this.triggerExactMatchChange } checked={ this.props.data.exact } />
+          <div className="label">Exact Match</div>
+        </div>
       </div>
     );
   }

@@ -9,7 +9,9 @@ export default {
     },
   },
   searcher: {
-    data: {},
+    data: {
+      match: false,
+    },
     config: {
       timeout: 300,
       searchBy: 'search',

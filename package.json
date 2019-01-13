@@ -44,6 +44,7 @@
     "parse-error": "^0.2.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "react-switch": "^3.0.4",
     "underscore": "~1.9.1",
     "url-parse": "^1.4.3",
     "validator": "^10.7.1",

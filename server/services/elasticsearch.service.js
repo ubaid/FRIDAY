@@ -30,7 +30,9 @@ const searchWithPagination = async(inputOptions) => {
   }
 
   const options = _.extend({ fields: _.pluck(_.filter(indexConfig.fields, field => field.search), 'name') }, inputOptions);
-  const queryBody = options.exact ? QueryBuilder.getExactMatchQuery(options) : QueryBuilder.getSearchQuery(options);
+  const queryBody = String(options.exact) === 'true'
+      ? QueryBuilder.getExactMatchQuery(options)
+      : QueryBuilder.getSearchQuery(options);
   const queryOptions = _.extend({
     data: true,
     offset: 0,
