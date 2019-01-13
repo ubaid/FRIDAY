@@ -134,6 +134,7 @@ module.exports = {
       app: path.join(clientPath, 'app'),
       common: path.join(clientPath, 'common'),
       config: path.join(clientPath, 'config'),
+      lib: path.join(clientPath, 'lib'),
       reducers: path.join(clientPath, 'reducers'),
       shared: path.resolve(__dirname, 'shared'),
     },

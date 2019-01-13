@@ -1,10 +1,7 @@
-import _ from 'underscore';
-
 import { SEARCH_REQ, SEARCH_RESULT, SEARCH_ERR } from './actions';
 
 export default (state = {
   fetching: false,
-  offset: 0,
   total: 0,
   items: [],
   errorMessage: null,
@@ -21,7 +18,7 @@ export default (state = {
         ...state,
         fetching: false,
         total: action.data.total,
-        offset: state.offset + _.size(action.data.items),
+        maxScore: action.data.maxScore,
         items: action.data.items,
       };
     case SEARCH_ERR:

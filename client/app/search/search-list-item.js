@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import _ from 'underscore';
 
 import DVUtils from 'shared/utils';
+import Logger from 'lib/logger';
 import searchConfig from 'config/search';
 
 
@@ -55,11 +56,17 @@ class SearchListItem extends Component {
     return SearchListItem.getFieldValueList(itemJson, fieldName);
   }
 
+  getBucket() {
+    const bucket = Math.round(Math.log2((parseFloat(this.props.maxScore) + this.props.min_score) / this.props.score));
+    Logger.info(`Score: ${ this.props.score } Bucket ${ bucket }`);
+    return 'bucket_'.concat(bucket);
+  }
+
   render() {
     const fieldsConfig = searchConfig.fieldsConfig[this.props.index] || {};
 
     return (
-      <div className="row fixed list-row">
+      <div className={ [ 'row fixed list-row', this.getBucket() ].join(DVUtils.SPACE) }>
         {
           fieldsConfig.fields.map((field) => {
             return (
