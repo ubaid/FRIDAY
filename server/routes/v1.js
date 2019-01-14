@@ -10,6 +10,7 @@ const MaterialsController = require('../controllers/material.controller');
 const CustomersController = require('../controllers/customer.controller');
 const ProbabilityConfigController = require('../controllers/probabilityConfig.controller');
 const SearchController = require('../controllers/search.controller');
+const DownloadController = require('../controllers/download.controller');
 const custom = require('../middleware/custom');
 
 const options = { session: false };
@@ -44,6 +45,7 @@ router.put('/probabilityConfigs', auth.authenticate('jwt', options), Probability
 router.delete('/probabilityConfigs', auth.authenticate('jwt', options), ProbabilityConfigController.remove);
 
 router.post('/search', SearchController.search);
+router.get('/download', DownloadController.download);
 
 router.get('/dash', auth.authenticate('jwt', options), HomeController.Dashboard);
 

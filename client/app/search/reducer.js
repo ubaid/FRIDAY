@@ -17,7 +17,7 @@ export default (state = {
       return {
         ...state,
         fetching: false,
-        total: action.data.total,
+        total: action.data.total || 0,
         maxScore: action.data.maxScore,
         items: action.data.items,
       };

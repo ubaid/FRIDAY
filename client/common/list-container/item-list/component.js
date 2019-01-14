@@ -90,6 +90,10 @@ class ItemList extends Component {
     );
   }
 
+  getFetchParams() {
+    return this.state.fetchParams;
+  }
+
   handleItemClick(itemJson, event) {
     if (_.isFunction(this.props.list.config.onItemClick)) {
       this.props.list.config.onItemClick(itemJson, event);

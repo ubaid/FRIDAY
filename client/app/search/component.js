@@ -5,8 +5,10 @@ import _ from 'underscore';
 import DVUtils from 'shared/utils';
 import searchConfig from 'config/search';
 import ListComponent from 'common/list-container/component';
+import ListEnums from 'common/list-container/enum';
 import Logger from 'lib/logger';
 
+import DownloadResults from './download-results';
 import SearchListItem from './search-list-item';
 import { searchItems } from './actions';
 
@@ -58,7 +60,20 @@ class SearchContainer extends Component {
   constructor(props) {
     super(props);
 
+    this.onActionClick = this.onActionClick.bind(this);
     this.updateList = this.updateList.bind(this);
+  }
+
+  onActionClick(action) {
+    switch (action) {
+      case ListEnums.ACTIONS.DOWNLOAD:
+        this.downloadDialog.showDialog(_.extend({
+          count: this.props.total || 20,
+        }, this.searchList.getWrappedInstance().getFetchParams()));
+        break;
+
+      default:
+    }
   }
 
   getListComponentProps() {
@@ -67,6 +82,10 @@ class SearchContainer extends Component {
 
     searchListConfig.searcher.data.value = fetchParams.search;
     searchListConfig.searcher.data.exact = fetchParams.exact === 'true';
+
+    searchListConfig.actionBar.config.onActionClick = this.onActionClick;
+    searchListConfig.actionBar.config.actions[0].disabled = this.props.total === 0;
+
     searchListConfig.masterSelector.data.selected = fetchParams.index;
     searchListConfig.list.config = {
       ...searchListConfig.list.config,
@@ -95,9 +114,16 @@ class SearchContainer extends Component {
   }
 
   render() {
+    const listComponentProps = this.getListComponentProps();
+    const downloadResultProps = { visible: false, count: _.size(listComponentProps.list.data.items) };
+
     return (
       <div className="search-list-container">
-        <ListComponent ref={ (node) => { this.searchList = node; } } { ...this.getListComponentProps() } />
+        <DownloadResults
+          ref={ (node) => { this.downloadDialog = node; } }
+          { ...downloadResultProps }
+        />
+        <ListComponent ref={ (node) => { this.searchList = node; } } { ...listComponentProps } />
       </div>
     );
   }

@@ -52,7 +52,15 @@ module.exports = {
       sortOrder: 'DESCENDING',
     },
   },
-  actionBar: {},
+  actionBar: {
+    config: {
+      actions: [ {
+        name: 'Download Results',
+        event: 'download',
+        src: 'images/download.jpg',
+      } ],
+    },
+  },
   list: {
     data: {
       fetching: false,

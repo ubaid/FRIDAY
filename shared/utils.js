@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const DVUtils = {
   AMPERSAND: '&',
+  DOUBLE_QUOTES: '"',
   EMAIL_REGEX: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}/,
   EMPTY_STRING: '',
   EQUAL_TO: '=',
@@ -13,6 +14,7 @@ const DVUtils = {
   QM: '?',
   SEARCH_PATH: '/search',
   SPACE: ' ',
+  UNDERSCORE: '_',
 
   isEmailValid(email) {
     return _.isString(email) && DVUtils.EMAIL_REGEX.test(email);

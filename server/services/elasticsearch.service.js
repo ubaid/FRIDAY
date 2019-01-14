@@ -42,8 +42,8 @@ const searchWithPagination = async(inputOptions) => {
   const esQuery = {
     index: indexConfig.index,
     type: config.search.profileType,
-    from: queryOptions.offset,
-    size: queryOptions.limit,
+    from: parseInt(queryOptions.offset, 10),
+    size: parseInt(queryOptions.limit, 10),
     body: queryOptions.body,
   };
 

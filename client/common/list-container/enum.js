@@ -22,6 +22,10 @@ const ListEnums = {
     ASCENDING: 'ASCENDING',
     DESCENDING: 'DESCENDING',
   },
+
+  ACTIONS: {
+    DOWNLOAD: 'download',
+  },
 };
 
 export default ListEnums;

@@ -73,6 +73,10 @@ class ListContainer extends Component {
     this.handleClearAll = this.handleClearAll.bind(this);
   }
 
+  getFetchParams() {
+    return this.itemList.getFetchParams();
+  }
+
   handleMaterialChange(options) {
     this.updateList(options);
   }
@@ -112,7 +116,7 @@ class ListContainer extends Component {
         <MasterSelector { ...masterSelectorProps } />
         <Searcher ref={ (node) => { this.searcher = node; } } { ...searcherProps } />
         <ListHeading ref={ (node) => { this.listHeading = node; } } { ...this.props.list } />
-        <ActionBar />
+        <ActionBar { ...this.props.actionBar } />
         <ListHeader { ...listHeaderProps } />
         <ItemList ref={ (node) => { this.itemList = node; } } { ...this.props } />
       </div>

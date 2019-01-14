@@ -17,15 +17,21 @@ class ActionBar extends Component {
   }
 
   render() {
-    const actions = _.isArray(this.props.actions) ? this.props.actions : [];
+    const actions = _.isArray(this.props.config.actions) ? this.props.config.actions : [];
 
     return (
       <div className="action-bar">
         {
           actions.map((action) => {
             return (
-              <button type="button" title={ action.name } onClick={ this.triggerAction.bind(this, action.event) }>
-                <img src={ action.src } alt={ action.name } />
+              <button
+                type="button"
+                className={ action.event }
+                disabled={ action.disabled }
+                title={ action.name }
+                onClick={ this.triggerAction.bind(this, action.event) }
+              >
+                <img className="icon light-border" src={ action.src } alt={ action.name } />
               </button>
             );
           })
